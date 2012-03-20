@@ -3,6 +3,8 @@ package gs.hitchin.simplet;
 import static gs.hitchin.simplet.TestFragment.fragment;
 import static junit.framework.Assert.assertEquals;
 import gs.hitchin.simplet.ann.N;
+import gs.hitchin.simplet.ann.TemplateFile;
+import gs.hitchin.simplet.ann.TemplateResource;
 import gs.hitchin.simplet.ann.TemplateString;
 
 import org.junit.Test;
@@ -113,7 +115,20 @@ just as we'd expect.
 			.resultEquals("[|text|]")
 			.assertOn(t.outside(t.inside("text")));	
 	}
-	
+
+/*
+Oh yeah, and you can use templates in files and resources as well.  The format used by external files allows you 
+to define multiple templates in a single file, which is probably how most will use this library.  
+*/
+
+		static interface Example5 {
+			@TemplateResource(resource="gs/hitchin/simplet/hello.s", template="hello")
+			String hello(@N("a") String who, @N("b") String say);
+			
+			@TemplateFile(file="src/test/resources/gs/hitchin/simplet/hello.s", template="world")
+			String world(@N("a") String who, @N("b") String say);
+		}
+
 /*
 So that's it for the introduction.  I'm sure you'll think of other crazy ways to use this.
 

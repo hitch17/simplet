@@ -109,12 +109,14 @@ public class Simplet {
 			@Override
 			public Object render(Object[] params) {
 				Builder<String, String> t = ImmutableMap.builder();
-				for (int i = 0; i < params.length; i++) {
-					Object p = checkNotNull(params[i], "Method [%s] was passed null to parameter #%s.", method, i);
-					if (p instanceof Fragment) {
-						t.put(lookup.get(i), ((Fragment)p).getResult().toString());
-					} else {
-						t.put(lookup.get(i), p.toString());
+				if (params != null) {
+					for (int i = 0; i < params.length; i++) {
+						Object p = checkNotNull(params[i], "Method [%s] was passed null to parameter #%s.", method, i);
+						if (p instanceof Fragment) {
+							t.put(lookup.get(i), ((Fragment)p).getResult().toString());
+						} else {
+							t.put(lookup.get(i), p.toString());
+						}
 					}
 				}
 				Map<String, String> context = t.build();
@@ -128,8 +130,10 @@ public class Simplet {
 						return b.toString();
 					} else if (returnType == Fragment.class) {
 						Builder<String, Object> objects = ImmutableMap.builder();
-						for (int i = 0; i < params.length; i++) {
-							objects.put(lookup.get(i), params[i]);
+						if (params != null) {
+							for (int i = 0; i < params.length; i++) {
+								objects.put(lookup.get(i), params[i]);
+							}
 						}
 						return new Fragment(method, objects.build(), b);
 					} else {

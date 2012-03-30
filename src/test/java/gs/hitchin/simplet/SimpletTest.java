@@ -122,4 +122,14 @@ public class SimpletTest {
 		String world(@N("a") String who, @N("b") String say);
 	}
 	
+	@Test
+	public void testNoParamsTemplate() {
+		assertEquals("xyz", Simplet.simplet().template(NoParamsTemplate.class).content());
+	}
+	
+	static interface NoParamsTemplate {
+		@TemplateString("xyz")
+		String content();
+	}
+	
 }
